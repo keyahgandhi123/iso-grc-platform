@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.report-buttons a{
+display:inline-block;
+width:auto;
+margin-right:12px;
+padding:8px 16px;
+}
+</style>
+
+<h2>Excel Risk Report</h2>
+
+<div class="card">
+
+<p>Export the current risk register into an Excel file.</p>
+
+<div class="report-buttons">
+
+<a href="/export-excel" class="btn btn-success">
+Download Excel
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

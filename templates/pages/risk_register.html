@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Risk Register</h2>
+
+<table class="table table-dark table-hover">
+
+<tr>
+<th>Risk</th>
+<th>Asset</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Score</th>
+<th>Level</th>
+</tr>
+
+{% for risk in risks %}
+
+<tr>
+<td>{{ risk.risk_name }}</td>
+<td>{{ risk.asset }}</td>
+<td>{{ risk.likelihood }}</td>
+<td>{{ risk.impact }}</td>
+<td>{{ risk.score }}</td>
+<td class="{{ risk.level | lower }}">{{ risk.level }}</td>
+<td>
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<a href="/delete-risk/{{ risk.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+{% endif %}
+</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

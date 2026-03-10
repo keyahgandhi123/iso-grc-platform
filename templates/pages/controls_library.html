@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Controls Library</h2>
+
+<div class="card">
+
+<h4>Add New Control</h4>
+
+<form method="POST" action="/add-control">
+
+<input name="control_name" placeholder="Control Name" required>
+
+<select name="framework">
+<option value="ISO 27001">ISO 27001</option>
+<option value="NIST">NIST</option>
+<option value="SOC2">SOC2</option>
+</select>
+
+<select name="status">
+<option value="Implemented">Implemented</option>
+<option value="In Progress">In Progress</option>
+<option value="Not Implemented">Not Implemented</option>
+</select>
+
+<button type="submit">Add Control</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h4>Existing Controls</h4>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Control</th>
+<th>Framework</th>
+<th>Status</th>
+
+{% if session.get('role','').lower() == 'admin' %}
+<th>Action</th>
+{% endif %}
+
+</tr>
+
+{% for c in controls %}
+
+<tr>
+
+<td>{{ c.id }}</td>
+<td>{{ c.control_name }}</td>
+<td>{{ c.framework }}</td>
+<td>{{ c.status }}</td>
+
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<td>
+<a href="/delete-control/{{ c.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+</td>
+{% endif %}
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

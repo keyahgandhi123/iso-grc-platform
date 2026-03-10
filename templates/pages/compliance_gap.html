@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Compliance Gap Analysis</h2>
+
+<div class="card">
+
+<h4>Add Compliance Gap</h4>
+
+<form method="POST" action="/add-gap">
+
+<input name="control_name" placeholder="Control Name" required>
+
+<input name="gap_description" placeholder="Gap Description" required>
+
+<input name="remediation" placeholder="Remediation Plan" required>
+
+<select name="status">
+<option>Open</option>
+<option>In Progress</option>
+<option>Closed</option>
+</select>
+
+<button type="submit">Add Gap</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h4>Existing Gaps</h4>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Control</th>
+<th>Gap</th>
+<th>Remediation</th>
+<th>Status</th>
+
+{% if session.get('role','').lower() == 'admin' %}
+<th>Action</th>
+{% endif %}
+
+</tr>
+
+{% for gap in gaps %}
+
+<tr>
+
+<td>{{ gap.id }}</td>
+<td>{{ gap.control_name }}</td>
+<td>{{ gap.gap_description }}</td>
+<td>{{ gap.remediation }}</td>
+<td>{{ gap.status }}</td>
+
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<td>
+<a href="/delete-gap/{{ gap.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+</td>
+{% endif %}
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

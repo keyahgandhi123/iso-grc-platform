@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Policy Management</h2>
+
+<a href="/upload-policy" class="btn btn-primary mb-3">
+Upload Policy
+</a>
+
+<div class="card p-4">
+
+{% if policies %}
+
+<table class="table table-dark table-hover">
+<thead>
+<tr>
+<th>Policy Name</th>
+<th>File</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for policy in policies %}
+<tr>
+<td><strong>{{ policy.name }}</strong></td>
+<td>{{ policy.file }}</td>
+<td>
+<a href="/uploads/{{ policy.file }}" 
+class="btn btn-sm btn-success" 
+target="_blank">
+Download
+</a>
+</td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+{% else %}
+<p>No policies uploaded yet.</p>
+{% endif %}
+
+</div>
+
+{% endblock %}

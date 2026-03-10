@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Vendors</h2>
+
+<div class="card">
+
+<h4>Add Vendor</h4>
+
+<form method="POST" action="/add-vendor">
+
+<input name="vendor_name" placeholder="Vendor Name" required>
+
+<input name="service" placeholder="Service" required>
+
+<select name="risk_level">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<input name="contact_email" placeholder="Contact Email" required>
+
+<button type="submit">Add Vendor</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h4>Vendor List</h4>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Service</th>
+<th>Risk Level</th>
+<th>Email</th>
+
+{% if session.get('role','').lower() == 'admin' %}
+<th>Action</th>
+{% endif %}
+
+</tr>
+
+{% for vendor in vendors %}
+
+<tr>
+
+<td>{{ vendor.id }}</td>
+<td>{{ vendor.vendor_name }}</td>
+<td>{{ vendor.service }}</td>
+<td>{{ vendor.risk_level }}</td>
+<td>{{ vendor.contact_email }}</td>
+
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<td>
+<a href="/delete-vendor/{{ vendor.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+</td>
+{% endif %}
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

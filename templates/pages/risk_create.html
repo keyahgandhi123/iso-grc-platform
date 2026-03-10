@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Create Risk</h2>
+
+<form method="POST">
+
+<label>Risk Name</label>
+<input name="risk_name">
+
+<label>Asset</label>
+<input name="asset">
+
+<label>Risk Owner</label>
+<input type="text" name="owner" required>
+
+<label>Likelihood</label>
+<select name="likelihood">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
+<label>Impact</label>
+<select name="impact">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
+<button type="submit">Add Risk</button>
+
+</form>
+
+{% endblock %}

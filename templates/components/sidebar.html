@@ -1,0 +1,114 @@
+<div class="sidebar">
+
+<div class="logo">ISO GRC</div>
+
+<a href="/dashboard" class="nav-link">Executive Dashboard</a>
+
+
+<!-- RISK -->
+<div class="section-header" onclick="toggleSection('riskSection')">
+    •⁠ Risk</div>
+<div id="riskSection" class="section-content">
+<a href="/create-risk" class="nav-link">Create Risk</a>
+<a href="/risk-register" class="nav-link">Risk Register</a>
+<a href="/risk-dashboard" class="nav-link">Risk Analytics</a>
+</div>
+
+
+<!-- COMPLIANCE -->
+<div class="section-header" onclick="toggleSection('complianceSection')">
+    •⁠ Compliance</div>
+<div id="complianceSection" class="section-content">
+
+<a href="/controls-library" class="nav-link">Controls Library</a>
+<a href="/compliance-gap" class="nav-link">Compliance Gap</a>
+<a href="/audit-management" class="nav-link">Audit Management</a>
+<a href="/audit-workflow" class="nav-link">Audit Workflow</a>
+<a href="/maturity-dashboard" class="nav-link">Maturity Dashboard</a>
+
+</div>
+
+
+<!-- OPERATIONS -->
+<div class="section-header" onclick="toggleSection('opsSection')">
+    •⁠ Operations</div>
+<div id="opsSection" class="section-content">
+
+<a href="/assets" class="nav-link">Asset Inventory</a>
+<a href="/incidents" class="nav-link">Incidents</a>
+<a href="/incident-lifecycle" class="nav-link">Incident Lifecycle</a>
+<a href="/live-monitoring" class="nav-link">Live Monitoring</a>
+<a href="/vendors" class="nav-link">Vendors</a>
+<a href="/vendor-scoring" class="nav-link">Vendor Scoring</a>
+
+</div>
+
+
+<!-- REPORTING -->
+<div class="section-header" onclick="toggleSection('reportSection')">
+    •⁠ Reporting</div>
+<div id="reportSection" class="section-content">
+<a href="/reports" class="nav-link">Reports</a>
+<a href="/executive-reporting" class="nav-link">Executive Reporting</a>
+<a href="/report-history" class="nav-link">Report History</a>
+</div>
+
+
+<!-- ADMIN -->
+<div class="section-header" onclick="toggleSection('adminSection')">
+    •⁠ Administration</div>
+<div id="adminSection" class="section-content">
+
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<a href="/users" class="nav-link">User Management</a>
+<a href="/audit-logs" class="nav-link">Audit Logs</a>
+<a href="/roles-permissions" class="nav-link">Roles & Permissions</a>
+{% endif %}
+
+<a href="/settings" class="nav-link">Settings</a>
+
+</div>
+
+</div>
+
+<script>
+
+function toggleSection(sectionId){
+
+    const section = document.getElementById(sectionId)
+
+    if(section.classList.contains("open")){
+        section.classList.remove("open")
+    } else {
+        section.classList.add("open")
+    }
+
+}
+
+window.onload = function(){
+
+    const path = window.location.pathname
+
+    if(path.includes("risk")){
+        document.getElementById("riskSection").classList.add("open")
+    }
+
+    if(path.includes("control") || path.includes("audit") || path.includes("compliance") || path.includes("maturity")){
+        document.getElementById("complianceSection").classList.add("open")
+    }
+
+    if(path.includes("asset") || path.includes("incident") || path.includes("vendor") || path.includes("monitoring")){
+        document.getElementById("opsSection").classList.add("open")
+    }
+
+    if(path.includes("report")){
+        document.getElementById("reportSection").classList.add("open")
+    }
+
+    if(path.includes("user") || path.includes("role") || path.includes("settings")){
+        document.getElementById("adminSection").classList.add("open")
+    }
+
+}
+
+</script>

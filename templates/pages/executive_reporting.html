@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.report-buttons a{
+display:inline-block;
+width:auto;
+margin-right:12px;
+padding:8px 16px;
+}
+</style>
+
+<h2>Executive Reporting</h2>
+
+<div class="card">
+
+<div class="report-buttons">
+
+<a href="/excel-report-page" class="btn btn-success">
+Export Excel
+</a>
+
+<a href="/pdf-report-page" class="btn btn-danger">
+Export PDF
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

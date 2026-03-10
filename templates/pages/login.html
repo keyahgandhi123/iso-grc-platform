@@ -1,0 +1,29 @@
+{% extends 'auth_base.html' %}
+
+{% block content %}
+
+<div class="auth-card">
+    <h3 class="mb-4 text-center">ISO 27001 GRC Portal</h3>
+
+{% if error %}
+<div class="alert alert-danger">
+{{ error }}
+</div>
+{% endif %}
+
+    <form action="/login" method="POST">
+
+        <div class="mb-3">
+            <input type="text" name="username" class="form-control" placeholder="Username" required>
+        </div>
+
+        <div class="mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+
+    </form>
+</div>
+
+{% endblock %}

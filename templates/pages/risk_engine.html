@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Dynamic Risk Engine</h2>
+
+<div class="card p-4">
+
+<label>Impact (1-5)</label>
+<select id="impact" class="form-select mb-3" onchange="calculateRisk()">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
+<label>Likelihood (1-5)</label>
+<select id="likelihood" class="form-select mb-3" onchange="calculateRisk()">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
+<h4>Calculated Risk Score: <span id="score">1</span></h4>
+
+</div>
+
+{% endblock %}

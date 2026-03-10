@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2>Create New User</h2>
+
+{% if error %}
+<div class="alert alert-danger">
+{{ error }}
+</div>
+{% endif %}
+
+<form action="/create-user" method="POST">
+
+<div class="mb-3">
+<label class="form-label">Username</label>
+<input type="text" name="username" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Password</label>
+<input type="password" name="password" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Role</label>
+
+<select name="role">
+
+<option>Admin</option>
+<option>User</option>
+<option>Auditor</option>
+<option>RiskManager</option>
+<option>ComplianceOfficer</option>
+
+</select>
+
+</div>
+
+<button type="submit" class="btn btn-primary">
+Create User
+</button>
+
+<a href="/users" class="btn btn-secondary">
+Cancel
+</a>
+
+</form>
+
+</div>
+
+{% endblock %}

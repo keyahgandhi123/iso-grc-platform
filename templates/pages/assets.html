@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Asset Inventory</h2>
+
+<div class="card">
+
+<h4>Add Asset</h4>
+
+<form method="POST" action="/add-asset">
+
+<input name="asset_name" placeholder="Asset Name" required>
+
+<input name="asset_type" placeholder="Asset Type" required>
+
+<input name="owner" placeholder="Owner" required>
+
+<select name="criticality">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<button type="submit">Add Asset</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h4>Existing Assets</h4>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Type</th>
+<th>Owner</th>
+<th>Criticality</th>
+
+{% if session.get('role','').lower() == 'admin' %}
+<th>Action</th>
+{% endif %}
+
+</tr>
+
+{% for asset in assets %}
+
+<tr>
+
+<td>{{ asset.id }}</td>
+<td>{{ asset.asset_name }}</td>
+<td>{{ asset.asset_type }}</td>
+<td>{{ asset.owner }}</td>
+<td>{{ asset.criticality }}</td>
+
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<td>
+<a href="/delete-asset/{{ asset.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+</td>
+{% endif %}
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

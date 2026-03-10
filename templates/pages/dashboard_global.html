@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Executive Dashboard</h2>
+
+<div class="dashboard-grid">
+
+<div class="metric-card">
+<p>Total Risks</p>
+<h3>{{ total_risks }}</h3>
+</div>
+
+<div class="metric-card">
+<p>High Risks</p>
+<h3 class="danger">{{ high_risks }}</h3>
+</div>
+
+<div class="metric-card">
+<p>Compliance Score</p>
+<h3 class="success">{{ compliance_score }}%</h3>
+</div>
+
+</div>
+
+<div class="chart-container">
+<h4>Risk Distribution</h4>
+<canvas id="riskChart"></canvas>
+</div>
+
+<script>
+
+new Chart(document.getElementById('riskChart'),{
+type:'bar',
+data:{
+labels:['Low','Medium','High'],
+datasets:[{
+data:[{{ low_count }},{{ medium_count }},{{ high_count }}]
+}]
+}
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.report-buttons a{
+display:inline-block;
+width:auto;
+margin-right:12px;
+padding:8px 16px;
+}
+</style>
+
+<h2>PDF Risk Report</h2>
+
+<div class="card">
+
+<p>Download a PDF report containing the risk summary.</p>
+
+<div class="report-buttons">
+
+<a href="/export-pdf" class="btn btn-danger">
+Download PDF
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

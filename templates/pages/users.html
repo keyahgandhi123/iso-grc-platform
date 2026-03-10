@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>User Management</h2>
+
+<div class="d-flex justify-content-between mb-3">
+
+<input type="text" id="userSearch" class="form-control w-50" placeholder="Search users..." onkeyup="searchUsers()">
+
+{% if session.get('role','').lower() == 'superadmin' %}
+<a href="/create-user" class="btn btn-primary">
+Create User
+</a>
+{% endif %}
+
+</div>
+
+<div class="card p-4">
+
+<table class="table table-hover" id="usersTable">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Username</th>
+<th>Role</th>
+
+{% if session.get('role','').lower() == 'superadmin' %}
+<th>Update Role</th>
+<th>Action</th>
+{% endif %}
+
+</tr>
+</thead>
+
+<tbody>
+
+{% for user in users %}
+
+<tr>
+
+<td>{{ user.id }}</td>
+<td>{{ user.username }}</td>
+<td>{{ user.role }}</td>
+
+{% if session.get('role','').lower() == 'superadmin' %}
+
+<td>
+
+<form method="POST" action="/update-role/{{ user.id }}" class="d-flex">
+
+<select name="role" class="form-select form-select-sm">
+
+<option {% if user.role == "Admin" %}selected{% endif %}>Admin</option>
+<option {% if user.role == "RiskManager" %}selected{% endif %}>RiskManager</option>
+<option {% if user.role == "ComplianceOfficer" %}selected{% endif %}>ComplianceOfficer</option>
+<option {% if user.role == "Auditor" %}selected{% endif %}>Auditor</option>
+<option {% if user.role == "User" %}selected{% endif %}>User</option>
+
+</select>
+
+<button type="submit" class="btn btn-success btn-sm ms-2">
+Update
+</button>
+
+</form>
+
+</td>
+
+<td>
+
+{% if user.username != session['user'] %}
+<a href="/delete-user/{{ user.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+{% else %}
+<span class="text-muted">Current User</span>
+{% endif %}
+
+</td>
+
+{% endif %}
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+function searchUsers(){
+
+let input = document.getElementById("userSearch").value.toLowerCase()
+let rows = document.querySelectorAll("#usersTable tbody tr")
+
+rows.forEach(function(row){
+
+let username = row.children[1].textContent.toLowerCase()
+
+if(username.includes(input)){
+row.style.display = ""
+}else{
+row.style.display = "none"
+}
+
+})
+
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+<div class="topbar">
+
+    <div class="client-switcher">
+        Client:
+        <select>
+            <option>Acme Corp</option>
+            <option>VaultWise</option>
+            <option>Test Client</option>
+        </select>
+    </div>
+
+    <div class="user-info">
+        {% if session.get('user') %}
+        Logged in as: <strong>{{ session.get('user') }}</strong> ({{ session.get('role') }})
+        {% endif %}
+    </div>
+
+    <div class="user-area">
+        {% if session.get('user') %}
+        {{ session.get('user') }}
+        {% endif %}
+    </div>
+
+</div>

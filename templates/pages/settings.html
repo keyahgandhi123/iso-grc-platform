@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Platform Settings</h2>
+
+<div class="card p-4">
+
+<h4>Appearance</h4>
+<button type="button" onclick="toggleThemeInstant()" class="btn btn-secondary mb-3">
+Toggle Dark / Light Mode
+</button>
+
+<hr>
+
+<h4>Security</h4>
+
+<select name="password_policy" class="form-select mb-3">
+<option value="strong">Strong (8 characters)</option>
+<option value="very_strong">Very Strong (15 characters)</option>
+</select>
+
+<label>Session Timeout</label>
+<input class="form-control mb-3" value="30 Minutes">
+
+<label>Enable MFA</label>
+<input type="checkbox" checked>
+
+<hr>
+
+<h4>Compliance Features</h4>
+
+<label>Auto Risk Calculation</label>
+<input type="checkbox" checked><br>
+
+<label>Auto Audit Scheduling</label>
+<input type="checkbox"><br>
+
+<label>Compliance Alerts</label>
+<input type="checkbox" checked><br>
+
+<hr>
+
+<h4>System</h4>
+
+<label>Backup Frequency</label>
+<select class="form-select mb-3">
+<option>Daily</option>
+<option>Weekly</option>
+<option>Monthly</option>
+</select>
+
+<label>Enable Live Monitoring</label>
+<input type="checkbox" checked>
+
+</div>
+
+<hr>
+
+<h4>Account</h4>
+
+<a href="/logout" class="btn btn-danger mt-3">
+Logout
+</a>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Vendor Scoring</h2>
+
+<div class="card">
+
+<h4>Calculate Score</h4>
+
+<form method="POST" action="/add-score">
+
+<input name="vendor_name" placeholder="Vendor Name" required>
+
+<input name="security_score" type="number" placeholder="Security Score" required>
+
+<input name="compliance_score" type="number" placeholder="Compliance Score" required>
+
+<button type="submit">Calculate Score</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h4>Scores</h4>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Vendor</th>
+<th>Security</th>
+<th>Compliance</th>
+<th>Overall</th>
+
+{% if session.get('role','').lower() == 'admin' %}
+<th>Action</th>
+{% endif %}
+
+</tr>
+
+{% for score in scores %}
+
+<tr>
+
+<td>{{ score.id }}</td>
+<td>{{ score.vendor_name }}</td>
+<td>{{ score.security_score }}</td>
+<td>{{ score.compliance_score }}</td>
+<td>{{ score.overall_score }}</td>
+
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<td>
+<a href="/delete-score/{{ score.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+</td>
+{% endif %}
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Risk Analytics Dashboard</h2>
+
+<div class="dashboard-grid">
+
+<div class="metric-card">
+<p>Low Risks</p>
+<h3 class="success">{{ low }}</h3>
+</div>
+
+<div class="metric-card">
+<p>Medium Risks</p>
+<h3>{{ medium }}</h3>
+</div>
+
+<div class="metric-card">
+<p>High Risks</p>
+<h3 class="danger">{{ high }}</h3>
+</div>
+
+<div class="metric-card">
+<p>Total Risks</p>
+<h3>{{ low + medium + high }}</h3>
+</div>
+
+</div>
+
+
+<div class="chart-container">
+<canvas id="riskTrend"></canvas>
+</div>
+
+
+<script>
+const ctx = document.getElementById('riskTrend');
+
+new Chart(ctx,{
+type:'bar',
+data:{
+labels:['Low','Medium','High'],
+datasets:[{
+label:'Risk Distribution',
+data:[{{ low }}, {{ medium }}, {{ high }}],
+backgroundColor:[
+'#22c55e',
+'#facc15',
+'#ef4444'
+]
+}]
+}
+});
+</script>
+
+{% endblock %}

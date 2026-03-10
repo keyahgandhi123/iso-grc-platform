@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Audit Logs</h2>
+
+<div class="card p-4">
+
+<table class="table">
+
+<tr>
+<th>User</th>
+<th>Action</th>
+<th>Timestamp</th>
+</tr>
+
+{% for log in logs %}
+
+<tr>
+<td>{{ log.user }}</td>
+<td>{{ log.action }}</td>
+<td>{{ log.timestamp }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

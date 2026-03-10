@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Live Monitoring</h2>
+
+<div class="card">
+
+<h4>Log Event</h4>
+
+<form method="POST" action="/add-event">
+
+<input name="event_name" placeholder="Event Name" required>
+
+<select name="severity">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<button type="submit">Log Event</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h4>Monitoring Events</h4>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Event</th>
+<th>Severity</th>
+<th>Timestamp</th>
+
+{% if session.get('role','').lower() == 'admin' %}
+<th>Action</th>
+{% endif %}
+
+</tr>
+
+{% for event in events %}
+
+<tr>
+
+<td>{{ event.id }}</td>
+<td>{{ event.event_name }}</td>
+<td>{{ event.severity }}</td>
+<td>{{ event.timestamp }}</td>
+
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<td>
+<a href="/delete-event/{{ event.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+</td>
+{% endif %}
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

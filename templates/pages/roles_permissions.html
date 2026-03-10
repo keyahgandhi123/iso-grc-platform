@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Roles & Permissions</h2>
+
+<div class="card">
+
+<h4>System Roles</h4>
+
+<table class="table">
+
+<tr>
+<th>Role</th>
+<th>Description</th>
+<th>Permissions</th>
+</tr>
+
+<tr>
+<td>SuperAdmin</td>
+<td>Full platform control</td>
+<td>Create users, Delete users, Manage roles, Full system access</td>
+</tr>
+
+<tr>
+<td>Admin</td>
+<td>Platform administrator</td>
+<td>View users, Manage roles, Manage platform settings</td>
+</tr>
+
+<tr>
+<td>RiskManager</td>
+<td>Responsible for risk management</td>
+<td>Create risks, Update risks, View risk analytics</td>
+</tr>
+
+<tr>
+<td>ComplianceOfficer</td>
+<td>Manages compliance activities</td>
+<td>Manage controls, Compliance gap tracking, Audit workflows</td>
+</tr>
+
+<tr>
+<td>Auditor</td>
+<td>Independent audit role</td>
+<td>View controls, View audits, Review compliance data</td>
+</tr>
+
+<tr>
+<td>User</td>
+<td>Standard platform user</td>
+<td>View dashboards, View reports</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card mt-4">
+
+<h4>Current Platform Users</h4>
+
+<table class="table">
+
+<tr>
+<th>ID</th>
+<th>Username</th>
+<th>Role</th>
+</tr>
+
+{% for user in users %}
+
+<tr>
+<td>{{ user.id }}</td>
+<td>{{ user.username }}</td>
+<td>{{ user.role }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

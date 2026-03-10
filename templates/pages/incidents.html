@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Incidents</h2>
+
+<div class="card">
+
+<h4>Submit Incident</h4>
+
+<form method="POST" action="/add-incident">
+
+<input name="title" placeholder="Incident Title" required>
+
+<select name="severity">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<select name="status">
+<option>Open</option>
+<option>Investigating</option>
+<option>Resolved</option>
+</select>
+
+<input name="description" placeholder="Description" required>
+
+<button type="submit">Submit Incident</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h4>Incident List</h4>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Title</th>
+<th>Severity</th>
+<th>Status</th>
+<th>Description</th>
+
+{% if session.get('role','').lower() == 'admin' %}
+<th>Action</th>
+{% endif %}
+
+</tr>
+
+{% for incident in incidents %}
+
+<tr>
+
+<td>{{ incident.id }}</td>
+<td>{{ incident.title }}</td>
+<td>{{ incident.severity }}</td>
+<td>{{ incident.status }}</td>
+<td>{{ incident.description }}</td>
+
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
+<td>
+<a href="/delete-incident/{{ incident.id }}" class="btn btn-danger btn-sm">
+Delete
+</a>
+</td>
+{% endif %}
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

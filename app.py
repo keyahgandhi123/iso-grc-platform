@@ -52,7 +52,7 @@ def validate_password(password):
 app = Flask(__name__)
 app.secret_key = "secretkey"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///grc.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///grc.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
@@ -819,3 +819,5 @@ if __name__ == "__main__":
 
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+    postgresql://iso_grc_platform_user:lLVfibS9DtYrYSqysVdiQW9TKaPjkzXg@dpg-d6of6laa214c73b9tj70-a/iso_grc_platform

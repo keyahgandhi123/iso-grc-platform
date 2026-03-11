@@ -204,10 +204,23 @@ def risk_dashboard():
 # PAGE ROUTES
 # ======================
 
+from iso_controls import ISO_CONTROLS
+
 @app.route("/controls-library")
 def controls_library():
-    controls = Control.query.all()
-    return render_template("pages/controls_library.html", controls=controls)
+
+    search = request.args.get("search","")
+
+    if search:
+        filtered = [c for c in ISO_CONTROLS if search.lower() in c.lower()]
+    else:
+        filtered = ISO_CONTROLS
+
+    return render_template(
+        "pages/controls_library.html",
+        controls=filtered,
+        search=search
+    )
 
 
 @app.route("/compliance-gap")
@@ -794,6 +807,40 @@ def report_history():
     return render_template("pages/report_history.html", logs=logs)
 
 
+@app.route("/statement-of-applicability", methods=["GET","POST"])
+def statement_of_applicability():
+
+    from iso_controls import ISO_CONTROLS
+
+    if request.method == "POST":
+
+        for control in ISO_CONTROLS:
+
+            checked = request.form.get(control)
+
+            record = SoAControl.query.filter_by(control_name=control).first()
+
+            if not record:
+                record = SoAControl(control_name=control)
+
+            record.applicable = True if checked else False
+
+            db.session.add(record)
+
+        db.session.commit()
+
+        return redirect("/statement-of-applicability")
+
+    records = SoAControl.query.all()
+
+    status = {r.control_name: r.applicable for r in records}
+
+    return render_template(
+        "pages/soa.html",
+        controls=ISO_CONTROLS,
+        status=status
+    )
+
 # ======================
 # RUN
 # ======================
@@ -819,5 +866,3 @@ if __name__ == "__main__":
 
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
-    postgresql://iso_grc_platform_user:lLVfibS9DtYrYSqysVdiQW9TKaPjkzXg@dpg-d6of6laa214c73b9tj70-a/iso_grc_platform

@@ -59,10 +59,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
-with app.app_context():
-        db.create_all()
-
-
 UPLOAD_FOLDER = "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
@@ -852,11 +848,12 @@ def statement_of_applicability():
 # ======================
 
 import os
+with app.app_context():
+    db.create_all()
 
 if __name__ == "__main__":
 
     with app.app_context():
-        db.create_all()
 
         admin = User.query.filter_by(username="admin").first()
 

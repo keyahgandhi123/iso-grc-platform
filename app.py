@@ -850,24 +850,24 @@ def statement_of_applicability():
 # ======================
 
 import os
+
 with app.app_context():
+
     db.create_all()
 
+    admin = User.query.filter_by(username="admin").first()
+
+    if not admin:
+        admin = User(
+            username="admin",
+            password=generate_password_hash("admin123"),
+            role="SuperAdmin"
+        )
+
+        db.session.add(admin)
+        db.session.commit()
+
+
 if __name__ == "__main__":
-
-    with app.app_context():
-
-        admin = User.query.filter_by(username="admin").first()
-
-        if not admin:
-            admin = User(
-                username="admin",
-                password=generate_password_hash("admin123"),
-                role="SuperAdmin"
-            )
-
-            db.session.add(admin)
-            db.session.commit()
-
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)

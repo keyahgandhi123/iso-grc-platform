@@ -6,33 +6,31 @@
 
 <form method="POST">
 
-<div class="card p-4">
+{% for section, controls in controls.items() %}
 
-<ul class="list-group">
+<h3>{{ section }}</h3>
 
 {% for control in controls %}
 
-<li class="list-group-item">
+<label>
 
-<input
-type="checkbox"
-name="{{ control }}"
-{% if status.get(control) %} checked {% endif %}
+<input type="checkbox" name="{{ control }}"
+{% if status.get(control) %}checked{% endif %}
 >
 
 {{ control }}
 
-</li>
+</label>
+
+<br>
 
 {% endfor %}
 
-</ul>
+<br>
 
-<button class="btn btn-primary mt-3">
-Save SoA
-</button>
+{% endfor %}
 
-</div>
+<button type="submit">Save</button>
 
 </form>
 

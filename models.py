@@ -146,8 +146,11 @@ class ReportLog(db.Model):
 
     timestamp = db.Column(db.DateTime)
 
-class SoAControl(db.Model):
+# =================
+# DATABASE MODELS
+# =================
 
+class SoAControl(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     control_name = db.Column(db.String(200))
     applicable = db.Column(db.Boolean, default=False)

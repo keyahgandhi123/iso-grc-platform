@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_file, session
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from iso_controls import iso_controls
+from iso_controls import ISO_CONTROLS
 from datetime import datetime
 def log_action(action):
 
@@ -20,7 +20,7 @@ import os
 import pandas as pd
 from reportlab.pdfgen import canvas
 
-from models import db, User, Risk, Control, ComplianceGap, AuditWorkflow, Asset, Incident, Vendor, VendorScore, MonitoringEvent, AuditLog, ReportLog
+from models import db, User, Risk, Control, ComplianceGap, AuditWorkflow, Asset, Incident, Vendor, VendorScore, MonitoringEvent, AuditLog, ReportLog, SoAControl
 
 import re
 
@@ -58,6 +58,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:/
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
+with app.app_context():
+    db.create_all()
 
 UPLOAD_FOLDER = "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -220,7 +222,7 @@ def controls_library():
 
     return render_template(
         "pages/controls_library.html",
-        controls=iso_controls,
+        controls=ISO_CONTROLS,
         search=search
     )
 

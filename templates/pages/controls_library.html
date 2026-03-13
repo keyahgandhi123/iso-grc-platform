@@ -18,9 +18,21 @@ value="{{ search }}"
 
 <div class="card p-4">
 
+<div class="accordion">
+
+{% for section, section_controls in controls.items() %}
+
+<div class="accordion-item mb-2">
+
+<button class="accordion-header btn btn-dark w-100 text-start">
+{{ section }}
+</button>
+
+<div class="accordion-content" style="display:none; padding:10px;">
+
 <ul class="list-group">
 
-{% for control in controls %}
+{% for control in section_controls %}
 
 <li class="list-group-item">
 {{ control }}
@@ -32,4 +44,28 @@ value="{{ search }}"
 
 </div>
 
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+<script>
+
+document.querySelectorAll(".accordion-header").forEach(btn => {
+
+btn.addEventListener("click", () => {
+
+const content = btn.nextElementSibling;
+
+content.style.display =
+content.style.display === "block" ? "none" : "block";
+
+});
+
+});
+
+</script>
 {% endblock %}

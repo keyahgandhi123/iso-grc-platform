@@ -54,7 +54,14 @@ def validate_password(password):
 app = Flask(__name__)
 app.secret_key = "secretkey"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///grc.db")
+import os
+
+database_url = os.environ.get("DATABASE_URL")
+
+if database_url:
+    database_url = database_url.replace("postgres://", "postgresql://")
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url or "sqlite:///grc.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)

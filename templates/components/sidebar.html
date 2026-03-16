@@ -88,7 +88,7 @@ function toggleSection(sectionId){
     if(section.classList.contains("open")){
         section.classList.remove("open")
         localStorage.removeItem(sectionId)
-    }else{
+    } else {
         section.classList.add("open")
         localStorage.setItem(sectionId,"open")
     }
@@ -105,15 +105,10 @@ window.onload = function(){
         "adminSection"
     ]
 
-    sections.forEach(function(id){
-
+    sections.forEach(id => {
         if(localStorage.getItem(id) === "open"){
-            const el = document.getElementById(id)
-            if(el){
-                el.classList.add("open")
-            }
+            document.getElementById(id).classList.add("open")
         }
-
     })
 
 }

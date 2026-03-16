@@ -222,21 +222,30 @@ def risk_dashboard():
 # PAGE ROUTES
 # ======================
 
-from iso_controls import ISO_CONTROLS
-
 @app.route("/controls-library")
 def controls_library():
+    from iso_controls import ISO_CONTROLS
 
-    search = request.args.get("search","")
+    search = request.args.get("search", "").lower()
 
-    if search:
-        filtered = [c for c in ISO_CONTROLS if search.lower() in c.lower()]
-    else:
-        filtered = ISO_CONTROLS
+    filtered_controls = {}
+
+    for domain, controls in ISO_CONTROLS.items():
+        matches = []
+
+        for control in controls:
+            if search in control.lower():
+                matches.append(control)
+
+        if matches:
+            filtered_controls[domain] = matches
+
+    if not search:
+        filtered_controls = ISO_CONTROLS
 
     return render_template(
         "pages/controls_library.html",
-        controls=ISO_CONTROLS,
+        controls=filtered_controls,
         search=search
     )
 

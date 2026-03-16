@@ -932,6 +932,10 @@ import os
 
 with app.app_context():
 
+    # RESET DATABASE ON RENDER ONLY
+    if os.environ.get("RENDER"):
+        db.drop_all()
+
     db.create_all()
 
     admin = User.query.filter_by(username="admin").first()

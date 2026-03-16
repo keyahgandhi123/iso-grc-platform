@@ -15,7 +15,7 @@
 <label>
 
 <input type="checkbox" name="{{ control }}"
-{% if status.get(control) %}checked{% endif %}
+{% if status.get(control, True) %}checked{% endif %}
 >
 
 {{ control }}

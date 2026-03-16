@@ -252,8 +252,13 @@ def controls_library():
 
 @app.route("/compliance-gap")
 def compliance_gap():
+
     gaps = ComplianceGap.query.all()
-    return render_template("pages/compliance_gap.html", gaps=gaps)
+
+    return render_template(
+        "pages/compliance_gap.html",
+        gaps=gaps
+    )
 
 
 @app.route("/audit-management")
@@ -834,29 +839,65 @@ def report_history():
     return render_template("pages/report_history.html", logs=logs)
 
 
-@app.route("/statement-of-applicability", methods=["GET","POST"])
+@app.route("/statement-of-applicability", methods=["GET", "POST"])
 def statement_of_applicability():
 
     from iso_controls import ISO_CONTROLS
 
     if request.method == "POST":
 
-        for control in ISO_CONTROLS:
+        selected_controls = []
 
-            checked = request.form.get(control)
+        for domain, controls in ISO_CONTROLS.items():
+            for control in controls:
 
-            record = SoAControl.query.filter_by(control_name=control).first()
+                checked = request.form.get(control)
 
-            if not record:
-                record = SoAControl(control_name=control)
+                record = SoAControl.query.filter_by(control_name=control).first()
 
-            record.applicable = True if checked else False
+                if not record:
+                    record = SoAControl(control_name=control)
 
-            db.session.add(record)
+                record.applicable = True if checked else False
+                db.session.add(record)
+
+                if checked:
+                    selected_controls.append(control)
+
+        db.session.commit()
+
+        # ----- Sync Compliance Gap Table -----
+
+        existing_gaps = ComplianceGap.query.all()
+
+        for gap in existing_gaps:
+            full_name = gap.control_id + " " + gap.control_name
+            if full_name not in selected_controls:
+                db.session.delete(gap)
+
+        for control in selected_controls:
+
+            control_id = control.split(" ")[0]
+            control_name = " ".join(control.split(" ")[1:])
+
+            gap_record = ComplianceGap.query.filter_by(control_id=control_id).first()
+
+            if not gap_record:
+                gap_record = ComplianceGap(
+                    control_id=control_id,
+                    control_name=control_name,
+                    gap_description="",
+                    remediation="",
+                    status="Open"
+                )
+
+                db.session.add(gap_record)
 
         db.session.commit()
 
         return redirect("/statement-of-applicability")
+
+    # ----- GET REQUEST -----
 
     records = SoAControl.query.all()
 
@@ -867,6 +908,21 @@ def statement_of_applicability():
         controls=ISO_CONTROLS,
         status=status
     )
+
+@app.route("/update-gaps", methods=["POST"])
+def update_gaps():
+
+    gaps = ComplianceGap.query.all()
+
+    for gap in gaps:
+
+        gap.gap_description = request.form.get(f"gap_{gap.id}")
+        gap.remediation = request.form.get(f"remediation_{gap.id}")
+        gap.status = request.form.get(f"status_{gap.id}")
+
+    db.session.commit()
+
+    return redirect("/compliance-gap")
 
 # ======================
 # RUN

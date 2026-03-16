@@ -339,3 +339,23 @@ background:#2a2a2a;
 padding:6px;
 border-bottom:1px solid #444;
 }
+
+.sidebar-logo{
+    text-align:center;
+    padding:15px 10px;
+}
+
+.syn-logo{
+    width:170px;
+    height:60px;
+    object-fit:cover;
+    object-position:center;
+}
+
+.sidebar-logo img{
+    transition: transform 0.2s ease;
+}
+
+.sidebar-logo img:hover{
+    transform: scale(1.05);
+}

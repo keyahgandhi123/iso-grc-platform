@@ -1,6 +1,13 @@
 <div class="sidebar">
 
-<div class="logo">ISO GRC</div>
+<div class="sidebar-logo text-center p-3">
+
+<img
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxUX7v2eHhqbGTWNjWr4FMwI6K8fNbvPpIzw&s"
+alt="Synclature"
+class="syn-logo">
+
+</div>
 
 <a href="/dashboard" class="nav-link">Executive Dashboard</a>
 
@@ -80,35 +87,34 @@ function toggleSection(sectionId){
 
     if(section.classList.contains("open")){
         section.classList.remove("open")
-    } else {
+        localStorage.removeItem(sectionId)
+    }else{
         section.classList.add("open")
+        localStorage.setItem(sectionId,"open")
     }
 
 }
 
 window.onload = function(){
 
-    const path = window.location.pathname
+    const sections = [
+        "riskSection",
+        "complianceSection",
+        "opsSection",
+        "reportSection",
+        "adminSection"
+    ]
 
-    if(path.includes("risk")){
-        document.getElementById("riskSection").classList.add("open")
-    }
+    sections.forEach(function(id){
 
-    if(path.includes("control") || path.includes("audit") || path.includes("compliance") || path.includes("maturity")){
-        document.getElementById("complianceSection").classList.add("open")
-    }
+        if(localStorage.getItem(id) === "open"){
+            const el = document.getElementById(id)
+            if(el){
+                el.classList.add("open")
+            }
+        }
 
-    if(path.includes("asset") || path.includes("incident") || path.includes("vendor") || path.includes("monitoring")){
-        document.getElementById("opsSection").classList.add("open")
-    }
-
-    if(path.includes("report")){
-        document.getElementById("reportSection").classList.add("open")
-    }
-
-    if(path.includes("user") || path.includes("role") || path.includes("settings")){
-        document.getElementById("adminSection").classList.add("open")
-    }
+    })
 
 }
 

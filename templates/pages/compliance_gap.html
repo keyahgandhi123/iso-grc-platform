@@ -4,36 +4,15 @@
 
 <h2>Compliance Gap Analysis</h2>
 
-<div class="card">
+<div class="card p-4">
 
-<h4>Add Compliance Gap</h4>
+<h4>ISO Controls Gap Register</h4>
 
-<form method="POST" action="/add-gap">
+<form method="POST" action="/update-gaps">
 
-<input name="control_name" placeholder="Control Name" required>
+<table class="table table-bordered">
 
-<input name="gap_description" placeholder="Gap Description" required>
-
-<input name="remediation" placeholder="Remediation Plan" required>
-
-<select name="status">
-<option>Open</option>
-<option>In Progress</option>
-<option>Closed</option>
-</select>
-
-<button type="submit">Add Gap</button>
-
-</form>
-
-</div>
-
-
-<div class="card">
-
-<h4>Existing Gaps</h4>
-
-<table>
+<thead>
 
 <tr>
 <th>ID</th>
@@ -42,35 +21,88 @@
 <th>Remediation</th>
 <th>Status</th>
 
-{% if session.get('role','').lower() == 'admin' %}
+{% if session.get('role','').lower() in ['admin','superadmin'] %}
 <th>Action</th>
 {% endif %}
 
 </tr>
 
+</thead>
+
+<tbody>
+
 {% for gap in gaps %}
 
 <tr>
 
-<td>{{ gap.id }}</td>
+<td>{{ gap.control_id }}</td>
+
 <td>{{ gap.control_name }}</td>
-<td>{{ gap.gap_description }}</td>
-<td>{{ gap.remediation }}</td>
-<td>{{ gap.status }}</td>
+
+<td>
+<input
+type="text"
+name="gap_{{gap.id}}"
+value="{{ gap.gap_description or '' }}"
+class="form-control">
+</td>
+
+<td>
+<input
+type="text"
+name="remediation_{{gap.id}}"
+value="{{ gap.remediation or '' }}"
+class="form-control">
+</td>
+
+<td>
+
+<select name="status_{{gap.id}}" class="form-control">
+
+<option value="">Select</option>
+
+<option value="Open"
+{% if gap.status == "Open" %}selected{% endif %}>
+Open
+</option>
+
+<option value="In Progress"
+{% if gap.status == "In Progress" %}selected{% endif %}>
+In Progress
+</option>
+
+<option value="Closed"
+{% if gap.status == "Closed" %}selected{% endif %}>
+Closed
+</option>
+
+</select>
+
+</td>
 
 {% if session.get('role','').lower() in ['admin','superadmin'] %}
+
 <td>
+
 <a href="/delete-gap/{{ gap.id }}" class="btn btn-danger btn-sm">
 Delete
 </a>
+
 </td>
+
 {% endif %}
 
 </tr>
 
 {% endfor %}
 
+</tbody>
+
 </table>
+
+<button class="btn btn-primary mt-3">Save Changes</button>
+
+</form>
 
 </div>
 

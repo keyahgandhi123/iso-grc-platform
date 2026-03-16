@@ -7,33 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<script>
 
-(function(){
-
-    const body = document.getElementById("appBody");
-
-    // Load saved theme instantly
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    body.classList.add(savedTheme);
-
-    // Global function (like iPhone system toggle)
-    window.toggleThemeInstant = function(){
-
-        if(body.classList.contains("dark")){
-            body.classList.remove("dark");
-            body.classList.add("light");
-            localStorage.setItem("theme","light");
-        }else{
-            body.classList.remove("light");
-            body.classList.add("dark");
-            localStorage.setItem("theme","dark");
-        }
-    }
-
-})();
-
-</script>
 <body id="appBody" class="dark">
 
 <div class="layout">
@@ -50,35 +24,47 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 <script>
 
 document.addEventListener("DOMContentLoaded", function(){
 
-    const body = document.getElementById("appBody");
+    const currentPath = window.location.pathname;
 
-    function applyTheme(theme){
-        body.classList.remove("dark","light");
-        body.classList.add(theme);
-    }
+    const menus = [
+        {prefix: "/statement-of-applicability", menu: "#complianceMenu"},
+        {prefix: "/controls-library", menu: "#complianceMenu"},
+        {prefix: "/compliance-gap", menu: "#complianceMenu"},
 
-    // Load saved theme (like iPhone system setting)
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    applyTheme(savedTheme);
+        {prefix: "/risk", menu: "#riskMenu"},
 
-    // Global toggle function
-    window.toggleThemeInstant = function(){
+        {prefix: "/audit-logs", menu: "#reportingMenu"},
+        {prefix: "/report", menu: "#reportingMenu"},
 
-        const newTheme = body.classList.contains("dark") ? "light" : "dark";
+        {prefix: "/users", menu: "#adminMenu"},
+        {prefix: "/settings", menu: "#adminMenu"}
+    ];
 
-        applyTheme(newTheme);
-        localStorage.setItem("theme", newTheme);
+    menus.forEach(item => {
 
-    };
+        if(currentPath.startsWith(item.prefix)){
+
+            const el = document.querySelector(item.menu);
+
+            if(el){
+                el.classList.add("show");
+            }
+
+        }
+
+    });
 
 });
 
 </script>
+
 </body>
 </html>

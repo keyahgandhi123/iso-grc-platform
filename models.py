@@ -108,10 +108,13 @@ class VendorScore(db.Model):
 
 class ComplianceGap(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+
+    control_id = db.Column(db.String(20))
     control_name = db.Column(db.String(200))
-    gap_description = db.Column(db.Text)
-    remediation = db.Column(db.Text)
-    status = db.Column(db.String(50))
+
+    gap_description = db.Column(db.String(500))
+    remediation = db.Column(db.String(500))
+    status = db.Column(db.String(100))
 
 
 # ======================
@@ -152,5 +155,5 @@ class ReportLog(db.Model):
 
 class SoAControl(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    control_name = db.Column(db.String(200))
-    applicable = db.Column(db.Boolean, default=False)
+    control_name = db.Column(db.String(200), unique=True)
+    applicable = db.Column(db.Boolean, default=True)

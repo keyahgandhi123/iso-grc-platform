@@ -24,22 +24,78 @@
 </div>
 
 <div class="chart-container">
-<h4>Risk Distribution</h4>
-<canvas id="riskChart"></canvas>
+    <h4>Risk Distribution</h4>
+
+    <div style="width:300px; height:300px; margin:auto;">
+        <canvas id="riskChart"></canvas>
+    </div>
 </div>
 
+<p id="riskData"
+   data-values='{{ [low_count, medium_count, high_count] | tojson }}'>
+</p>
+
 <script>
+document.addEventListener("DOMContentLoaded", function () {
 
-new Chart(document.getElementById('riskChart'),{
-type:'bar',
-data:{
-labels:['Low','Medium','High'],
-datasets:[{
-data:[{{ low_count }},{{ medium_count }},{{ high_count }}]
-}]
-}
+    const rawData = document.getElementById("riskData").dataset.values;
+    const riskData = JSON.parse(rawData);
+
+    const total = riskData.reduce((a, b) => a + b, 0);
+
+    const ctx = document.getElementById('riskChart').getContext('2d');
+
+    window.riskChartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Low', 'Medium', 'High'],
+            datasets: [{
+                data: riskData,
+                backgroundColor: ["#28a745", "#ffc107", "#dc3545"]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+    labels: {
+        generateLabels: function(chart) {
+
+            const isDark = document.body.classList.contains("dark");
+            const textColor = isDark ? "#ffffff" : "#000000";
+
+            const data = chart.data;
+
+            return data.labels.map((label, i) => {
+                const value = data.datasets[0].data[i];
+
+                return {
+                    text: `${label} (${value})`,
+                    fillStyle: data.datasets[0].backgroundColor[i],
+                    strokeStyle: data.datasets[0].backgroundColor[i],
+                    color: textColor   // ✅ IMPORTANT (not fontColor)
+                };
+            });
+        }
+    }
+},
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.raw;
+                            const percentage = total > 0 
+                                ? ((value / total) * 100).toFixed(1)
+                                : 0;
+                            return `${context.label}: ${value} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
 });
-
 </script>
 
 {% endblock %}

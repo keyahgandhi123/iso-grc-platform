@@ -30,6 +30,8 @@
 
 <script>
 
+console.log("Chart loaded:", typeof Chart);
+
 document.addEventListener("DOMContentLoaded", function(){
 
     const currentPath = window.location.pathname;
@@ -65,6 +67,31 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 </script>
+(function () {
+
+    const body = document.getElementById("appBody");
+
+    // Apply saved theme on load
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    body.classList.remove("dark", "light");
+    body.classList.add(savedTheme);
+
+    // Global toggle function
+    window.toggleThemeInstant = function () {
+
+        if (body.classList.contains("dark")) {
+            body.classList.remove("dark");
+            body.classList.add("light");
+            localStorage.setItem("theme", "light");
+        } else {
+            body.classList.remove("light");
+            body.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        }
+
+    };
+
+})();
 
 </body>
 </html>

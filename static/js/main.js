@@ -29,8 +29,24 @@ function calculateRisk(){
 }
 
 /* THEME SWITCH */
-function toggleTheme(){
-    document.body.classList.toggle("light-mode");
+function toggleTheme() {
+    const body = document.getElementById("appBody");
+
+    if (body.classList.contains("dark")) {
+        body.classList.remove("dark");
+        body.classList.add("light");
+        localStorage.setItem("theme", "light");
+    } else {
+        body.classList.remove("light");
+        body.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+    }
+
+    // 🔥 FIX LEGEND COLOR PROPERLY
+if (window.riskChartInstance) {
+    window.riskChartInstance.destroy();
+    window.location.reload();
+}
 }
 
 /* AUTO REFRESH DASHBOARD */
@@ -48,3 +64,8 @@ function filterTable(inputId, tableId){
         row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    document.getElementById("appBody").classList.add(savedTheme);
+});

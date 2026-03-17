@@ -85,17 +85,19 @@ function toggleSection(sectionId){
 
     const section = document.getElementById(sectionId)
 
+    // Toggle FIRST
+    section.classList.toggle("open")
+
+    // THEN save correct state
     if(section.classList.contains("open")){
-        section.classList.remove("open")
-        localStorage.setItem(sectionId, "closed")
-    } else {
-        section.classList.add("open")
         localStorage.setItem(sectionId, "open")
+    } else {
+        localStorage.setItem(sectionId, "closed")
     }
 
 }
 
-window.onload = function(){
+document.addEventListener("DOMContentLoaded", function(){
 
     const sections = [
         "riskSection",
@@ -106,14 +108,20 @@ window.onload = function(){
     ]
 
     sections.forEach(id => {
-        const section = document.getElementById(id)
 
-        if(localStorage.getItem(id) === "open"){
+        const section = document.getElementById(id)
+        if(!section) return
+
+        const saved = localStorage.getItem(id)
+
+        if(saved === "open"){
             section.classList.add("open")
         } else {
             section.classList.remove("open")
         }
+
     })
 
-}
+})
+
 </script>

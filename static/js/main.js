@@ -1,7 +1,16 @@
 /* COLLAPSIBLE SECTIONS */
 function toggleSection(id) {
+
     const section = document.getElementById(id);
+
     section.classList.toggle("open");
+
+    if(section.classList.contains("open")){
+        localStorage.setItem(id, "open");
+    } else {
+        localStorage.setItem(id, "closed");
+    }
+
 }
 
 /* ACTIVE NAV */

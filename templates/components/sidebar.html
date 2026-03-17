@@ -87,10 +87,10 @@ function toggleSection(sectionId){
 
     if(section.classList.contains("open")){
         section.classList.remove("open")
-        localStorage.removeItem(sectionId)
+        localStorage.setItem(sectionId, "closed")
     } else {
         section.classList.add("open")
-        localStorage.setItem(sectionId,"open")
+        localStorage.setItem(sectionId, "open")
     }
 
 }
@@ -106,11 +106,14 @@ window.onload = function(){
     ]
 
     sections.forEach(id => {
+        const section = document.getElementById(id)
+
         if(localStorage.getItem(id) === "open"){
-            document.getElementById(id).classList.add("open")
+            section.classList.add("open")
+        } else {
+            section.classList.remove("open")
         }
     })
 
 }
-
 </script>

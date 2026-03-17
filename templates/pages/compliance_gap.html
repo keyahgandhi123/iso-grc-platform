@@ -10,7 +10,14 @@
 
 <form method="POST" action="/update-gaps">
 
-<table class="table table-bordered">
+<input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Search control..." 
+    class="form-control mb-3"
+    onkeyup="filterTable('searchInput','gapTable')">
+
+<table class="table table-bordered" id="gapTable">
 
 <thead>
 

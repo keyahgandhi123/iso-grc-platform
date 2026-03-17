@@ -249,17 +249,22 @@ def controls_library():
         search=search
     )
 
-
 @app.route("/compliance-gap")
 def compliance_gap():
 
     gaps = ComplianceGap.query.all()
 
-    return render_template(
-        "pages/compliance_gap.html",
-        gaps=gaps
-    )
+    def sort_key(g):
+        try:
+            parts = g.control_id.replace("A.", "").split(".")
+            return [int(p) for p in parts]
+        except:
+            return [999, 999]  # fallback
 
+    gaps = sorted(gaps, key=sort_key)
+
+    return render_template("pages/compliance_gap.html", gaps=gaps)
+    
 
 @app.route("/audit-management")
 def audit_management():

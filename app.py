@@ -264,7 +264,7 @@ def compliance_gap():
     gaps = sorted(gaps, key=sort_key)
 
     return render_template("pages/compliance_gap.html", gaps=gaps)
-    
+
 
 @app.route("/audit-management")
 def audit_management():
@@ -937,23 +937,25 @@ import os
 
 with app.app_context():
 
-    # RESET DATABASE ON RENDER ONLY
-    if os.environ.get("RENDER"):
-        db.drop_all()
-
     db.create_all()
 
-    admin = User.query.filter_by(username="admin").first()
+    default_users = [
+        {"username": "admin", "password": "admin123", "role": "SuperAdmin"},
+        {"username": "Chandragupt", "password": "Synclature@123", "role": "admin"}
+    ]
 
-    if not admin:
-        admin = User(
-            username="admin",
-            password=generate_password_hash("admin123"),
-            role="SuperAdmin"
-        )
+    for u in default_users:
+        existing = User.query.filter_by(username=u["username"]).first()
 
-        db.session.add(admin)
-        db.session.commit()
+        if not existing:
+            new_user = User(
+                username=u["username"],
+                password=generate_password_hash(u["password"]),
+                role=u["role"]
+            )
+            db.session.add(new_user)
+
+    db.session.commit()
 
 
 if __name__ == "__main__":

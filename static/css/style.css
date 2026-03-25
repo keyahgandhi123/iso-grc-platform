@@ -365,3 +365,100 @@ border-bottom:1px solid #444;
     flex-direction: column;
     align-items: center;
 }
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.auth-page {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #081120, #10203a, #162b4d);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.auth-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 430px;
+    background: rgba(17, 28, 46, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 40px 35px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.login-header {
+    margin-bottom: 20px;
+}
+
+.login-logo {
+    width: 190px;
+    height: 85px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    margin: -8px auto 14px auto;
+}
+
+.login-title {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+.auth-card .form-control {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: white;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 1rem;
+}
+
+.auth-card .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.auth-card .form-control:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #4f8cff;
+    box-shadow: 0 0 0 0.15rem rgba(79, 140, 255, 0.25);
+    color: white;
+}
+
+.login-btn {
+    background: linear-gradient(90deg, #4f8cff, #2d6df6);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: 0.25s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(79, 140, 255, 0.35);
+}
+
+.auth-card .alert-danger {
+    border-radius: 12px;
+    text-align: center;
+}
